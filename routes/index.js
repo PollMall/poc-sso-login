@@ -3,17 +3,22 @@ var jwt = require("jsonwebtoken");
 var router = express.Router();
 
 router.post('/login', function(req, res) {
-  const token = req.body;
-  const decoded = jwt.verify(token, 'secret');
-  console.log(decoded);
+  const { token } = req.body;
+  console.log(token);
 
-  const {email} = decoded;
-  
-  if(email) {
-    return res.status(200).send({success: true, email});
+  try{
+    const decoded = jwt.verify(token, 'secret');
+    
+    const {email} = decoded;
+    
+    if(email) {
+      return res.status(200).send({success: true, email});
+    }
+    
+    res.status(404).send({ error: "Email does not exist" });
+  } catch(err) {
+    res.status(400).send(err);
   }
-
-  res.status(404).send({error: "teapa"});
 });
 
 module.exports = router;
