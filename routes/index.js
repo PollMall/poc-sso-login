@@ -1,13 +1,14 @@
-var express = require('express');
-var jwt = require("jsonwebtoken");
-var router = express.Router();
+const express = require('express');
+const path = require("path");
+const jwt = require("jsonwebtoken");
+const router = express.Router();
 
 router.post('/login', function(req, res) {
   const { token } = req.body;
   console.log(token);
 
   try{
-    const decoded = jwt.verify(token, 'secret');
+    const decoded = jwt.verify(token, process.env.SECRET, { algorithm: 'RS256' });
     
     const {email} = decoded;
     
