@@ -8,7 +8,7 @@ router.post('/login', function(req, res) {
   console.log(token);
 
   try{
-    const decoded = jwt.verify(token, process.env.SECRET, { algorithm: 'RS256' });
+    const decoded = jwt.decode(token);
     
     const {email} = decoded;
     
